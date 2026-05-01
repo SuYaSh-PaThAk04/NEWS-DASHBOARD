@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import NewsCard from "../../components/NewsCard";
@@ -31,6 +32,36 @@ const MAJOR_SECTORS = [
 ];
 
 export default function SectorsPage() {
+  return (
+    <Suspense fallback={<SectorsLoadingFallback />}>
+      <SectorsContent />
+    </Suspense>
+  );
+}
+
+function SectorsLoadingFallback() {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-[#0a0a0a] dark:to-[#1a1a1a]">
+      <section className="border-b border-slate-200 dark:border-slate-800 bg-gradient-to-r from-purple-600 to-pink-600 py-12">
+        <div className="mx-auto max-w-7xl px-4">
+          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
+            📊 Sector News
+          </h1>
+          <p className="text-purple-100">
+            Industry-specific market insights and developments
+          </p>
+        </div>
+      </section>
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-12">
+        <div className="flex justify-center py-12">
+          <div className="text-slate-500 dark:text-slate-400">Loading...</div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function SectorsContent() {
   const searchParams = useSearchParams();
   const paramSector = searchParams.get("sector");
   const page = parseInt(searchParams.get("page") || "1");

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import NewsCard from "../../components/NewsCard";
 import Pagination, { PaginationData } from "../../components/Pagination";
@@ -21,6 +21,36 @@ type NewsItem = {
 };
 
 export default function SentimentPage() {
+  return (
+    <Suspense fallback={<SentimentLoadingFallback />}>
+      <SentimentContent />
+    </Suspense>
+  );
+}
+
+function SentimentLoadingFallback() {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-[#0a0a0a] dark:to-[#1a1a1a]">
+      <section className="border-b border-slate-200 dark:border-slate-800 bg-gradient-to-r from-green-600 to-emerald-600 py-12">
+        <div className="mx-auto max-w-7xl px-4">
+          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
+            😊 Sentiment Analysis
+          </h1>
+          <p className="text-white/80">
+            Filter news by AI-detected market sentiment
+          </p>
+        </div>
+      </section>
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-12">
+        <div className="flex justify-center py-12">
+          <div className="text-slate-500 dark:text-slate-400">Loading...</div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function SentimentContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [items, setItems] = useState<NewsItem[]>([]);

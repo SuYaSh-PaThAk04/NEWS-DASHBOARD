@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import NewsCard from "../../components/NewsCard";
@@ -21,6 +22,36 @@ type NewsItem = {
 };
 
 export default function GlobalNewsPage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <GlobalNewsContent />
+    </Suspense>
+  );
+}
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-[#0a0a0a] dark:to-[#1a1a1a]">
+      <section className="border-b border-slate-200 dark:border-slate-800 bg-gradient-to-r from-green-600 to-emerald-600 py-12">
+        <div className="mx-auto max-w-7xl px-4">
+          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
+            🌍 Global News
+          </h1>
+          <p className="text-green-100">
+            International and global market developments
+          </p>
+        </div>
+      </section>
+      <section className="mx-auto max-w-7xl px-4 sm:px-6 py-12">
+        <div className="flex justify-center py-12">
+          <div className="text-slate-500 dark:text-slate-400">Loading...</div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function GlobalNewsContent() {
   const searchParams = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1");
 
