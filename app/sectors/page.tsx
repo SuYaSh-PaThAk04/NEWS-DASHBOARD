@@ -127,7 +127,13 @@ export default function SectorsPage() {
               </div>
             </div>
           ) : (
-            items.map((item) => <NewsCard key={item._id} {...item} />)
+            items.map((item) => (
+              <NewsCard
+                key={item._id}
+                {...item}
+                Headline={item.Headline ?? ""}
+              />
+            ))
           )}
         </div>
 
