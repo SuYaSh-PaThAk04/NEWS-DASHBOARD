@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { fetchNewsById } from "../../../../../lib/mongodb";
-
+import { fetchNewsById } from "@/lib/mongodb";
 export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
